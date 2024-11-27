@@ -45,7 +45,7 @@ class Role():
             "permissions": permissions
         }
 
-        response = requests.post(api_endpoint, headers=headers, data=json.dumps(data))
+        response = requests.post(api_endpoint, headers=headers, data=json.dumps(data), timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to update a role for {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException

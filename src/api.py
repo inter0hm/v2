@@ -198,13 +198,13 @@ def get_server_structure(id: int, token: Annotated[str, fastapi.Query(max_length
                 'Authorization': f'Bot {Bot.config.DISCORD_TOKEN}',
                 'Content-Type': 'application/json'
             }
-            response = requests.get(f'https://discord.com/api/v9/guilds/{id}/channels', headers=headers)
+            response = requests.get(f'https://discord.com/api/v9/guilds/{id}/channels', headers=headers, timeout=60)
             if response.status_code == 200:
                 channels = {}
                 response_channels = response.json()
                 for channel in response_channels:
                     if channel["type"] == 0 or channel["type"] == 5 or channel["type"] == 2:
-                        channel_category = requests.get(f'https://discord.com/api/v9/channels/{channel["parent_id"]}', headers=headers)
+                        channel_category = requests.get(f'https://discord.com/api/v9/channels/{channel["parent_id"]}', headers=headers, timeout=60)
                         category = None
                         try:
                             category = channel_category.json()["name"]
@@ -336,11 +336,11 @@ async def clear_temporary_attachments(master_token: Annotated[str, fastapi.Query
         try:
             total_files = len(os.listdir(f"{pathlib.Path(__file__).parent.resolve()}/astroidapi/TMP_attachments")) - 1
             await astroidapi.attachment_processor.force_clear_temporary_attachments()
-            requests.post("https://discord.com/api/webhooks/1279497897016299553/3GrZI75dDYwIkwYBac4o2ApJgzlVVCPIZnon_iE5RtaRIyiYUwcdaXxA327oNZyWZXs4", json={"content": f"[Astroid API - TMP Attachments] Deleted {total_files} temporary attachments."})
+            requests.post("https://discord.com/api/webhooks/1279497897016299553/3GrZI75dDYwIkwYBac4o2ApJgzlVVCPIZnon_iE5RtaRIyiYUwcdaXxA327oNZyWZXs4", json={"content": f"[Astroid API - TMP Attachments] Deleted {total_files} temporary attachments."}, timeout=60)
             return fastapi.responses.JSONResponse(status_code=200, content={"message": "Success."})
         except Exception as e:
             logging.exception(traceback.print_exc())
-            requests.post("https://discord.com/api/webhooks/1279497897016299553/3GrZI75dDYwIkwYBac4o2ApJgzlVVCPIZnon_iE5RtaRIyiYUwcdaXxA327oNZyWZXs4", json={"content": f"[Astroid API - TMP Attachments] An error occurred while deleting temporary attachments:\n\n `{e}`"})
+            requests.post("https://discord.com/api/webhooks/1279497897016299553/3GrZI75dDYwIkwYBac4o2ApJgzlVVCPIZnon_iE5RtaRIyiYUwcdaXxA327oNZyWZXs4", json={"content": f"[Astroid API - TMP Attachments] An error occurred while deleting temporary attachments:\n\n `{e}`"}, timeout=60)
             return fastapi.responses.JSONResponse(status_code=500, content={"message": f"An error occurred: {e}"})
     else:
         return fastapi.responses.JSONResponse(status_code=401, content={"message": "The provided token is invalid."})

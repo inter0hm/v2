@@ -47,7 +47,7 @@ class Member():
             "Content-Type": "application/json",
         }
 
-        response = requests.post(api_endpoint, headers=headers)
+        response = requests.post(api_endpoint, headers=headers, timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to follow {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -64,7 +64,7 @@ class Member():
             "Content-Type": "application/json",
         }
 
-        response = requests.delete(api_endpoint, headers=headers)
+        response = requests.delete(api_endpoint, headers=headers, timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to follow {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -81,7 +81,7 @@ class Member():
             "Content-Type": "application/json",
         }
 
-        response = requests.post(api_endpoint, headers=headers)
+        response = requests.post(api_endpoint, headers=headers, timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to send a friend request to {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -98,7 +98,7 @@ class Member():
             "Content-Type": "application/json",
         }
 
-        response = requests.post(api_endpoint, headers=headers)
+        response = requests.post(api_endpoint, headers=headers, timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to send a friend request to {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -118,7 +118,7 @@ class Member():
             "content": message_content,
         }
 
-        response = requests.post(api_endpoint, headers=headers, data=json.dumps(data))
+        response = requests.post(api_endpoint, headers=headers, data=json.dumps(data), timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to send message to {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -213,7 +213,7 @@ class ServerMember(Member):
             "Content-Type": "application/json",
         }
 
-        response = requests.delete(api_endpoint, headers=headers)
+        response = requests.delete(api_endpoint, headers=headers, timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to kick {self} from {self.server_id}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -232,7 +232,7 @@ class ServerMember(Member):
             "Content-Type": "application/json",
         }
 
-        response = requests.post(api_endpoint, headers=headers)
+        response = requests.post(api_endpoint, headers=headers, timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to ban {self} from {self.server_id}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -248,7 +248,7 @@ class ServerMember(Member):
             "Content-Type": "application/json",
         }
 
-        response = requests.delete(api_endpoint, headers=headers)
+        response = requests.delete(api_endpoint, headers=headers, timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to ban {self} from {self.server_id}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -306,7 +306,7 @@ class ClientMember(Member):
             "custom": custom_text
         }
 
-        response = requests.post(api_endpoint, headers=headers, data=json.dumps(data))
+        response = requests.post(api_endpoint, headers=headers, data=json.dumps(data), timeout=60)
         if response.status_code != 200:
             print(f"Failed to set presence. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -327,7 +327,7 @@ class ClientMember(Member):
             "content": message_content,
         }
 
-        response = requests.post(api_endpoint, headers=headers, data=data)
+        response = requests.post(api_endpoint, headers=headers, data=data, timeout=60)
         pass
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to send message to {self}. Status code: {response.status_code}. Response Text: {response.text}")
@@ -345,7 +345,7 @@ class ClientMember(Member):
             "Content-Type": "application/json",
         }
 
-        response = requests.get(api_endpoint, headers=headers)
+        response = requests.get(api_endpoint, headers=headers, timeout=60)
         raw_feed = json.loads(response.content)
 
         feed = []

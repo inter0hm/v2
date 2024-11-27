@@ -57,7 +57,7 @@ class Channel():
 
         if icon == None: del data["icon"]
 
-        response = requests.post(api_endpoint, headers=headers, data=json.dumps(data))
+        response = requests.post(api_endpoint, headers=headers, data=json.dumps(data), timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to update a channel for {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -66,13 +66,13 @@ class Channel():
             api_endpoint = f"https://nerimity.com/api/servers/{server_id}/channels/{self.id}/notice"
 
             if content == "":
-                response = requests.delete(api_endpoint, headers=headers)
+                response = requests.delete(api_endpoint, headers=headers, timeout=60)
 
                 if response.status_code != 200:
                     print(f"{ConsoleShortcuts.error()} Failed to update a channel for {self}. Status code: {response.status_code}. Response Text: {response.text}")
                     raise requests.RequestException
             else:
-                response = requests.put(api_endpoint, headers=headers, data=json.dumps({"content": content}))
+                response = requests.put(api_endpoint, headers=headers, data=json.dumps({"content": content}), timeout=60)
 
                 if response.status_code != 200:
                     print(f"{ConsoleShortcuts.error()} Failed to update a channel for {self}. Status code: {response.status_code}. Response Text: {response.text}")
@@ -98,7 +98,7 @@ class Channel():
                     'attachment': ('Unbenannt.PNG', attachment.data),
                 }
 
-        response = requests.post(api_endpoint, headers=headers, data=data, files=files)
+        response = requests.post(api_endpoint, headers=headers, data=data, files=files, timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to send message to {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -117,7 +117,7 @@ class Channel():
             "Content-Type": "application/json",
         }
 
-        response = requests.get(api_endpoint, headers=headers)
+        response = requests.get(api_endpoint, headers=headers, timeout=60)
         if response.status_code != 200:
             print(f"Failed to get messages from {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
