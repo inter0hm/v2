@@ -2,6 +2,7 @@ from nerimity._enums import GlobalClientInformation, ConsoleShortcuts
 
 import requests
 import json
+from security import safe_requests
 
 class Post():
     """
@@ -59,7 +60,7 @@ class Post():
             "Content-Type": "application/json",
         }
 
-        response = requests.get(api_endpoint, headers=headers)
+        response = safe_requests.get(api_endpoint, headers=headers)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to get comments for {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException

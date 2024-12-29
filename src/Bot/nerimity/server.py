@@ -6,6 +6,7 @@ from nerimity.roles import Role
 
 import requests
 import json
+from security import safe_requests
 
 class Server():
     """
@@ -69,7 +70,7 @@ class Server():
             "Content-Type": "application/json",
         }
 
-        response = requests.get(api_endpoint, headers=headers)
+        response = safe_requests.get(api_endpoint, headers=headers)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to get ban list {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -100,7 +101,7 @@ class Server():
             "Content-Type": "application/json",
         }
 
-        response = requests.get(api_endpoint, headers=headers)
+        response = safe_requests.get(api_endpoint, headers=headers)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to get ban list {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
