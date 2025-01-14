@@ -58,7 +58,7 @@ class Client(commands.CommandsClient):
                         message_attachments = endpoint_json["meta"]["message"]["attachments"]
                         sender_channel = endpoint_json["meta"]["sender-channel"]
                         global channel_id
-                        if str(sender_channel) in channel_ids_guilded or channel_ids_guilded is []:
+                        if str(sender_channel) in channel_ids_guilded or channel_ids_guilded == []:
                             print(endpoint_json["config"]["channels"]["revolt"])
                             channel_id = endpoint_json["config"]["channels"]["revolt"][
                                 channel_ids_guilded.index(str(sender_channel))]
