@@ -107,7 +107,7 @@ class Post():
         """Creates a post and publishes it. NOT CURRENTLY POSSIBLE."""
         return
 
-        api_endpoint = f"https://nerimity.com/api/posts"
+        api_endpoint = "https://nerimity.com/api/posts"
 
         headers = {
             "Authorization": GlobalClientInformation.TOKEN,

@@ -295,7 +295,7 @@ class ClientMember(Member):
         """Sets the presence of the bot. NOT CURRENTLY POSSIBLE."""
         return
 
-        api_endpoint = f"https://nerimity.com/api/users/presence"
+        api_endpoint = "https://nerimity.com/api/users/presence"
 
         headers = {
             "Authorization": GlobalClientInformation.TOKEN,
@@ -318,7 +318,7 @@ class ClientMember(Member):
         """Creates a post and publishes it. NOT CURRENTLY POSSIBLE."""
         return
 
-        api_endpoint = f"https://nerimity.com/api/posts"
+        api_endpoint = "https://nerimity.com/api/posts"
 
         headers = {
             "Authorization": GlobalClientInformation.TOKEN,
@@ -338,7 +338,7 @@ class ClientMember(Member):
         """Returns the entire feed the bot currently has. NOT CURRENTLY POSSIBLE."""
         return
 
-        api_endpoint = f"https://nerimity.com/api/posts/feed"
+        api_endpoint = "https://nerimity.com/api/posts/feed"
 
         headers = {
             "Authorization": GlobalClientInformation.TOKEN,

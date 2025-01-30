@@ -343,13 +343,13 @@ class Statistics:
                 await db.query(f"UPDATE statistics:messages SET total = {total + increment}")
                 if start_period:
                     await db.query(f"UPDATE statistics:messages SET periodStart = {datetime.datetime.now().timestamp()}")
-                    await db.query(f"UPDATE statistics:messages SET month = 0")
+                    await db.query("UPDATE statistics:messages SET month = 0")
                 period_start = await db.select("statistics:messages")
                 period_start = period_start["periodStart"]
                 print(datetime.datetime.fromtimestamp(period_start) + datetime.timedelta(weeks=4))
                 if current >= datetime.datetime.fromtimestamp(period_start) + datetime.timedelta(weeks=4):
                     await db.query(f"UPDATE statistics:messages SET periodStart = {datetime.datetime.now().timestamp()}")
-                    await db.query(f"UPDATE statistics:messages SET month = 0")
+                    await db.query("UPDATE statistics:messages SET month = 0")
                 else:
                     moth = await db.select("statistics:messages")
                     moth = moth["month"]
