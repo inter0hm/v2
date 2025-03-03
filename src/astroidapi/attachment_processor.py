@@ -8,7 +8,7 @@ import string
 
 async def download_attachment(attachment_url, registeredPlatforms):
     try: 
-        response = requests.get(attachment_url)
+        response = requests.get(attachment_url, timeout=60)
         if response.status_code == 200:
             try:
                 content_length = response.headers["content-length"]
