@@ -2,9 +2,9 @@ import requests
 import astroidapi.errors as errors
 import astroidapi.surrealdb_handler as surrealdb_handler
 import pathlib
-import random
 import pathlib
 import string
+import secrets
 
 async def download_attachment(attachment_url, registeredPlatforms):
     try: 
@@ -20,7 +20,7 @@ async def download_attachment(attachment_url, registeredPlatforms):
                     raise errors.AttachmentProcessError.AttachmentDownloadError.AttachmentTooLarge("Attachment is too large. Maximum size is 50MB.")
             print(f"Downloading attachment from {attachment_url}. Size: {int(content_length) / 1024 }KB")
             id_chars = string.ascii_lowercase + string.digits
-            attachment_id = "".join(random.choices(id_chars, k=16))
+            attachment_id = "".join(secrets.SystemRandom().choices(id_chars, k=16))
             attachment_name = attachment_url.split('/')[-1]
             attachment_type = attachment_name.split('.')[-1]
             if "?" in attachment_type:
