@@ -29,6 +29,7 @@ from slowapi import Limiter
 from slowapi.util import get_remote_address
 import logging
 import astroidapi
+from security import safe_requests
 
 # Configure logging to log to a file
 logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
@@ -198,13 +199,13 @@ def get_server_structure(id: int, token: Annotated[str, fastapi.Query(max_length
                 'Authorization': f'Bot {Bot.config.DISCORD_TOKEN}',
                 'Content-Type': 'application/json'
             }
-            response = requests.get(f'https://discord.com/api/v9/guilds/{id}/channels', headers=headers)
+            response = safe_requests.get(f'https://discord.com/api/v9/guilds/{id}/channels', headers=headers)
             if response.status_code == 200:
                 channels = {}
                 response_channels = response.json()
                 for channel in response_channels:
                     if channel["type"] == 0 or channel["type"] == 5 or channel["type"] == 2:
-                        channel_category = requests.get(f'https://discord.com/api/v9/channels/{channel["parent_id"]}', headers=headers)
+                        channel_category = safe_requests.get(f'https://discord.com/api/v9/channels/{channel["parent_id"]}', headers=headers)
                         category = None
                         try:
                             category = channel_category.json()["name"]
