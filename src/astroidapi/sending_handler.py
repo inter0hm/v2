@@ -39,7 +39,7 @@ class SendingHandler():
                 await cls.send_from_revolt(updated_json, endpoint, attachments)
             if sender == "nerimity":
                 await cls.send_from_nerimity(updated_json, endpoint, attachments)
-            if attachments is not None:
+            if attachments != None:
                 await attachment_processor.clear_temporary_attachments()
             asyncio.create_task(statistics.update_statistics())
             return True
