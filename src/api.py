@@ -325,7 +325,7 @@ async def new_token(endpoint: int,
             json.dump(data, tokens)
             tokens.truncate()
             tokens.close()
-            return {f"token": token}
+            return {"token": token}
 
     else:
         return fastapi.responses.JSONResponse(status_code=403, content={"message": "The provided token is invalid."})
