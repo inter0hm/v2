@@ -5,10 +5,10 @@ class GlobalClientInformation():
     SERVERS = {}
 
 class ConsoleShortcuts():
-    def log():   return f"{Colors.MAGENTA}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE} |"
-    def ok():    return f"{Colors.GREEN}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE} |"
-    def warn():  return f"{Colors.YELLOW}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE} |"
-    def error(): return f"{Colors.RED}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE} |"
+    def log(self):   return f"{Colors.MAGENTA}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE} |"
+    def ok(self):    return f"{Colors.GREEN}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE} |"
+    def warn(self):  return f"{Colors.YELLOW}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE} |"
+    def error(self): return f"{Colors.RED}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE} |"
 
 class Colors():
     BLACK = "\u001b[30m"
