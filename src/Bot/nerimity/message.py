@@ -57,7 +57,7 @@ class Message():
             "Content-Type": "application/json",
         }
 
-        response = requests.delete(api_endpoint, headers=headers)
+        response = requests.delete(api_endpoint, headers=headers, timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to delete {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -76,7 +76,7 @@ class Message():
             "content": edited_content,
         }
 
-        response = requests.patch(api_endpoint, headers=headers, data=json.dumps(data))
+        response = requests.patch(api_endpoint, headers=headers, data=json.dumps(data), timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to edit {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -95,7 +95,7 @@ class Message():
             "name": emoji,
         }
 
-        response = requests.post(api_endpoint, headers=headers, data=json.dumps(data))
+        response = requests.post(api_endpoint, headers=headers, data=json.dumps(data), timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to add '{emoji}' to {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException
@@ -114,7 +114,7 @@ class Message():
             "name": emoji,
         }
 
-        response = requests.post(api_endpoint, headers=headers, data=json.dumps(data))
+        response = requests.post(api_endpoint, headers=headers, data=json.dumps(data), timeout=60)
         if response.status_code != 200:
             print(f"{ConsoleShortcuts.error()} Failed to add {emoji} to {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException

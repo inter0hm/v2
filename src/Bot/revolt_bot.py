@@ -46,7 +46,7 @@ class Client(commands.CommandsClient):
                         json.load(open(f"{pathlib.Path(__file__).parent.parent.resolve()}/revolt_servers/{server}", "r"))[
                             "discord"])
                     endpoint_request = requests.get(
-                        f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}")
+                        f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}", timeout=60)
                     endpoint_json = endpoint_request.json()
                     endpoint_request.close()
                     if endpoint_json["meta"]["trigger"] is True and not endpoint_json["meta"]["sender"] == "revolt":
@@ -88,14 +88,14 @@ class Client(commands.CommandsClient):
                                                                                         avatar=author_avatar,
                                                                                         colour=color))
                             post = requests.post(
-                                f"https://astroid.deutscher775.de/read/{endpoint}?token={config.MASTER_TOKEN}&read_revolt=true")
+                                f"https://astroid.deutscher775.de/read/{endpoint}?token={config.MASTER_TOKEN}&read_revolt=true", timeout=60)
                             post.close()
                         else:
                             await channel.send(content=content,
                                                masquerade=revolt.Masquerade(name=author_name, avatar=author_avatar,
                                                                                     colour=color))
                             post = requests.post(
-                                f"https://astroid.deutscher775.de/read/{endpoint}?token={config.MASTER_TOKEN}&read_revolt=true")
+                                f"https://astroid.deutscher775.de/read/{endpoint}?token={config.MASTER_TOKEN}&read_revolt=true", timeout=60)
                             post.close()
                         await asyncio.sleep(2)
 
@@ -139,12 +139,12 @@ class Client(commands.CommandsClient):
                                  "r")
             endpoint = json.load(endpoint_file)["discord"]
             if message.channel.id in requests.get(
-                    f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}").json()[
+                    f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}", timeout=60).json()[
                 "config"]["channels"][
                 "revolt"]:
                 try:
                     blacklist_request = requests.get(
-                        f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}")
+                        f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}", timeout=60)
                     blacklist = blacklist_request.json()["config"]["blacklist"]
                     for word in blacklist:
                         if word is not None:
@@ -152,7 +152,7 @@ class Client(commands.CommandsClient):
                                 embed = revolt.SendableEmbed(title=f"{message.author.name} - Flagged",
                                                               description=message.content)
                                 channel_request = requests.get(
-                                    f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}")
+                                    f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}", timeout=60)
                                 channel_json = channel_request.json()["config"]["logs"]["revolt"]
                                 channel = await self.fetch_channel((channel_json))
                                 channel_request.close()
@@ -162,7 +162,7 @@ class Client(commands.CommandsClient):
                             pass
                     else:
                         allowed_ids_request = requests.get(
-                            f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}")
+                            f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}", timeout=60)
                         allowed_ids = allowed_ids_request.json()["config"]["allowed-ids"]
                         allowed_ids_request.close()
                         if not message.author.bot or message.author.id in allowed_ids:
@@ -171,14 +171,14 @@ class Client(commands.CommandsClient):
                                     f"https://astroid.deutscher775.de/update/{endpoint}?message_content={message.content}&"
                                     f"message_author_name={message.author.name}&message_author_avatar={message.author.avatar.url}&"
                                     f"message_author_id={message.author.id}&trigger=true&sender=revolt&token={config.MASTER_TOKEN}&"
-                                    f"sender_channel={message.channel.id}")
+                                    f"sender_channel={message.channel.id}", timeout=60)
                             if message.attachments:
                                 if len(message.attachments) == 1:
                                     requests.post(
                                         f"https://astroid.deutscher775.de/update/{endpoint}?message_content={message.content}&"
                                         f"message_author_name={message.author.name}&message_author_avatar={message.author.avatar.url}&"
                                         f"message_author_id={message.author.id}&trigger=true&sender=revolt&token={config.MASTER_TOKEN}"
-                                        f"&sender_channel={message.channel.id}&message_attachments={message.attachments[0].url}/{message.attachments[0].filename}")
+                                        f"&sender_channel={message.channel.id}&message_attachments={message.attachments[0].url}/{message.attachments[0].filename}", timeout=60)
                                 else:
                                     attachments = ""
                                     for attachment in message.attachments:
@@ -187,7 +187,7 @@ class Client(commands.CommandsClient):
                                         f"https://astroid.deutscher775.de/update/{endpoint}?message_content={message.content}&"
                                         f"message_author_name={message.author.name}&message_author_avatar={message.author.avatar.url}&"
                                         f"message_author_id={message.author.id}&trigger=true&sender=revolt&token={config.MASTER_TOKEN}"
-                                        f"&sender_channel={message.channel.id}&message_attachments={attachments[:-1]}")
+                                        f"&sender_channel={message.channel.id}&message_attachments={attachments[:-1]}", timeout=60)
 
                 except:
                     traceback.print_exc()
@@ -226,7 +226,7 @@ class Client(commands.CommandsClient):
         # webhook = await message.channel.create_webhook(name="astroid")
         requests.post(
             f"https://astroid.deutscher775.de/update/{endpoint}?channel_revolt={ctx.message.channel.id}&"
-            f"&token={config.MASTER_TOKEN}")
+            f"&token={config.MASTER_TOKEN}", timeout=60)
         await ctx.reply(f"Updated enpoint: https://astroid.deutscher775.de/{endpoint}")
 
 
@@ -238,7 +238,7 @@ class Client(commands.CommandsClient):
         endpoint = get_endpoint(ctx.server)
         if endpoint:
             requests.post(
-                f"https://astroid.deutscher775.de/update/{endpoint}?allowed_ids={allowid}&token={config.MASTER_TOKEN}")
+                f"https://astroid.deutscher775.de/update/{endpoint}?allowed_ids={allowid}&token={config.MASTER_TOKEN}", timeout=60)
             await ctx.reply(f"Updated enpoint: https://astroid.deutscher775.de/{endpoint}")
         else:
             await ctx.reply(":x: - Your endpoint could not be found.")
@@ -252,7 +252,7 @@ class Client(commands.CommandsClient):
         if endpoint:
             requests.post(
                 f"https://astroid.deutscher775.de/update/{endpoint}?"
-                f"log_revolt={channel}&token={config.MASTER_TOKEN}")
+                f"log_revolt={channel}&token={config.MASTER_TOKEN}", timeout=60)
             await ctx.reply(f"Updated enpoint: https://astroid.deutscher775.de/{endpoint}")
         else:
             await ctx.reply(":x: - Your endpoint could not be found.")
@@ -262,7 +262,7 @@ class Client(commands.CommandsClient):
         endpoint = get_endpoint(ctx.server)
         if endpoint:
             requests.post(
-                f"https://astroid.deutscher775.de/update/{endpoint}?channel_revolt={ctx.channel.id}&token={config.MASTER_TOKEN}")
+                f"https://astroid.deutscher775.de/update/{endpoint}?channel_revolt={ctx.channel.id}&token={config.MASTER_TOKEN}", timeout=60)
             await ctx.reply(f"Updated enpoint: https://astroid.deutscher775.de/{endpoint}")
         else:
             await ctx.reply(":x: - Your endpoint could not be found.")
