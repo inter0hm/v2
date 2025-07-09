@@ -10,6 +10,7 @@ import json
 import asyncio
 import aiohttp
 import sentry_sdk
+from security import safe_requests
 
 sentry_sdk.init(
     dsn=config.SENTRY_DSN,
@@ -45,7 +46,7 @@ class Client(commands.CommandsClient):
                     endpoint = int(
                         json.load(open(f"{pathlib.Path(__file__).parent.parent.resolve()}/revolt_servers/{server}", "r"))[
                             "discord"])
-                    endpoint_request = requests.get(
+                    endpoint_request = safe_requests.get(
                         f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}")
                     endpoint_json = endpoint_request.json()
                     endpoint_request.close()
@@ -138,12 +139,12 @@ class Client(commands.CommandsClient):
             endpoint_file = open(f"{pathlib.Path(__file__).parent.parent.resolve()}/revolt_servers/{message.server.id}.json",
                                  "r")
             endpoint = json.load(endpoint_file)["discord"]
-            if message.channel.id in requests.get(
+            if message.channel.id in safe_requests.get(
                     f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}").json()[
                 "config"]["channels"][
                 "revolt"]:
                 try:
-                    blacklist_request = requests.get(
+                    blacklist_request = safe_requests.get(
                         f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}")
                     blacklist = blacklist_request.json()["config"]["blacklist"]
                     for word in blacklist:
@@ -151,7 +152,7 @@ class Client(commands.CommandsClient):
                             if word.lower() in message.content.lower():
                                 embed = revolt.SendableEmbed(title=f"{message.author.name} - Flagged",
                                                               description=message.content)
-                                channel_request = requests.get(
+                                channel_request = safe_requests.get(
                                     f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}")
                                 channel_json = channel_request.json()["config"]["logs"]["revolt"]
                                 channel = await self.fetch_channel((channel_json))
@@ -161,7 +162,7 @@ class Client(commands.CommandsClient):
                         else:
                             pass
                     else:
-                        allowed_ids_request = requests.get(
+                        allowed_ids_request = safe_requests.get(
                             f"https://astroid.deutscher775.de/{endpoint}?token={config.MASTER_TOKEN}")
                         allowed_ids = allowed_ids_request.json()["config"]["allowed-ids"]
                         allowed_ids_request.close()

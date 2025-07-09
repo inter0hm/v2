@@ -5,6 +5,7 @@ from nerimity.post import Post
 
 import requests
 import json
+from security import safe_requests
 
 # Generic Member
 class Member():
@@ -345,7 +346,7 @@ class ClientMember(Member):
             "Content-Type": "application/json",
         }
 
-        response = requests.get(api_endpoint, headers=headers)
+        response = safe_requests.get(api_endpoint, headers=headers)
         raw_feed = json.loads(response.content)
 
         feed = []

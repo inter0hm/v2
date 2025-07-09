@@ -4,6 +4,7 @@ from nerimity._enums import GlobalClientInformation, ConsoleShortcuts
 
 import requests
 import json
+from security import safe_requests
 
 class Channel():
     """
@@ -117,7 +118,7 @@ class Channel():
             "Content-Type": "application/json",
         }
 
-        response = requests.get(api_endpoint, headers=headers)
+        response = safe_requests.get(api_endpoint, headers=headers)
         if response.status_code != 200:
             print(f"Failed to get messages from {self}. Status code: {response.status_code}. Response Text: {response.text}")
             raise requests.RequestException

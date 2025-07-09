@@ -1,14 +1,14 @@
-import requests
 import astroidapi.errors as errors
 import astroidapi.surrealdb_handler as surrealdb_handler
 import pathlib
 import random
 import pathlib
 import string
+from security import safe_requests
 
 async def download_attachment(attachment_url, registeredPlatforms):
     try: 
-        response = requests.get(attachment_url)
+        response = safe_requests.get(attachment_url)
         if response.status_code == 200:
             try:
                 content_length = response.headers["content-length"]

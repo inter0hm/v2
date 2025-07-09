@@ -7,3 +7,4 @@ voltage=<0.1.5a8
 re
 surrealdb
 aiohttp
+security==1.3.1
